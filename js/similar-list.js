@@ -14,7 +14,7 @@ const renderPictureList = () => {
 		pictureListFragment.appendChild(pictureElement);
 	});
 
-		pictureList.appendChild(pictureListFragment);
+	pictureList.appendChild(pictureListFragment);
 };
 
 export {renderPictureList};

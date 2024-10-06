@@ -30,10 +30,31 @@ const names = [
 	`Гоша`
 ];
 
+const getRandIntFromInterval = (min, max) => {
+	const previousValues = [];
+
+	return () => {
+		if (previousValues.length >= (max - min + 1)) {
+	    throw new Error('Перебраны все числа из диапазона от ' + min + ' до ' + max);
+	  }
+
+	  let currentValue = getRandomNum(min, max);
+
+		while (previousValues.includes(currentValue)) {
+	    currentValue = getRandomNum(min, max);
+	  }
+	  previousValues.push(currentValue);
+
+	  return currentValue;
+	};
+};
+
 const getRandCountComments = (min, max) => {
+	const getRanIntForIdComm = getRandIntFromInterval(1, 135);
+
 	return new Array(getRandomNum(min, max)).fill(null).map(() => { 
 		return {
-		  id: getRandomNum(1, 135),
+		  id: getRanIntForIdComm(),
 		  avatar: `img/avatar-${getRandomNum(1, 6)}.svg`,
 		  message: getRandVal(messages, true),
 		  name: getRandVal(names)
@@ -41,13 +62,16 @@ const getRandCountComments = (min, max) => {
 	});
 };
 
+const getRanIntForPhotos = getRandIntFromInterval(1, 25);
+const getRanIntForId = getRandIntFromInterval(1, 25);
+
 const getMoсksData = () => {
 	return {
-		id: getRandomNum(1, 25),
-		url: `photos/${getRandomNum(1, 25)}.jpg`,
+		id: getRanIntForId(),
+		url: `photos/${getRanIntForPhotos()}.jpg`,
 		description: getRandVal(descriptions),
 		likes: getRandomNum(15, 200),
-		comments: getRandCountComments(1, 5)
+		comments: getRandCountComments(1, 7)
 	};
 };
 
