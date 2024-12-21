@@ -20,6 +20,7 @@ const getMaxLenStr = (str, maxLen) => {
 	return true;
 }; 
 
+// Временно для моков
 const getRandVal = (value, comment) => {
 	const getRandValFromArr = () => {
 		return value[getRandomNum(0, value.length - 1)];

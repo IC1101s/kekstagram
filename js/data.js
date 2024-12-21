@@ -65,14 +65,14 @@ const getRandCountComments = (min, max) => {
 const getRanIntForPhotos = getRandIntFromInterval(1, 25);
 const getRanIntForId = getRandIntFromInterval(1, 25);
 
-const getMoсksData = () => {
+const getMocksData = () => {
 	return {
 		id: getRanIntForId(),
 		url: `photos/${getRanIntForPhotos()}.jpg`,
 		description: getRandVal(descriptions),
 		likes: getRandomNum(15, 200),
-		comments: getRandCountComments(1, 7)
+		comments: getRandCountComments(1, 5)
 	};
 };
 
-export {getMoсksData};
+export {getMocksData};
