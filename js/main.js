@@ -1,5 +1,6 @@
 import {getMocksData} from './data.js';
 import {renderPictureList} from './similar-list.js';
+import './upload.js';
 
 const COUNT_MOCKS = 25;
 
