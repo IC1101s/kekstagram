@@ -1,3 +1,5 @@
+import {effectsOpen, effectsClose} from './filter.js'
+
 const uploadFile = document.querySelector('#upload-file');
 const uploadOverlay = document.querySelector('.img-upload__overlay');
 const body = document.querySelector('body'); 
@@ -19,23 +21,22 @@ const onPopupUploadCancel = () => {
 	closeUploadOverlay();
 };
 
-const scaleMin = () => {
+const scaleDoMin = () => {
 	const minValue = 25;
-	const percentValue = parseInt(scaleControlValue.value.slice(0, -1));
+	const percentValue = parseInt(scaleControlValue.value, 10);
 	const scaleValue = parseFloat(uploadPreview.style.transform.slice(6, -1));
 
 	if (percentValue > minValue) {
 		scaleControlValue.value = `${percentValue - 25}%`;
 		uploadPreview.style.transform = `scale(${scaleValue - 0.25})`;
-		console.log(uploadPreview.style.transform)
 	}
 };
 
-const scaleMax = () => {
+const scaleDoMax = () => {
 	const maxValue = 100;
-	const percentValue = parseInt(scaleControlValue.value.slice(0, -1));
+	const percentValue = parseInt(scaleControlValue.value, 10);
 	const scaleValue = parseFloat(uploadPreview.style.transform.slice(6, -1));
-	
+
 	if (percentValue < maxValue) {
 		scaleControlValue.value = `${percentValue + 25}%`;
 		uploadPreview.style.transform = `scale(${scaleValue + 0.25})`;
@@ -43,27 +44,32 @@ const scaleMax = () => {
 };
 
 const openUploadOverlay = () => {
+	scaleControlValue.value = '100%';
+	uploadPreview.style.transform = 'scale(1)';
+
+	effectsOpen();
+
 	uploadOverlay.classList.remove('hidden');
 	body.classList.add('modal-open');
 
 	uploadCancel.addEventListener('click', onPopupUploadCancel);
 	document.addEventListener('keydown', onPopupUploadEscKeydown);
-
-	scaleControlValue.value = `${100}%`;
-	uploadPreview.style.transform = 'scale(1)';
-
-	scaleControlSmaller.addEventListener('click', scaleMin);
-	scaleControlBigger.addEventListener('click', scaleMax);
+	scaleControlSmaller.addEventListener('click', scaleDoMin);
+	scaleControlBigger.addEventListener('click', scaleDoMax);
 };
 
 const closeUploadOverlay = () => {
 	uploadOverlay.classList.add('hidden');
 	body.classList.remove('modal-open');
-	//Проверить смысл зачистки
+
 	uploadFile.value = '';
+
+	effectsClose();
 
 	uploadCancel.removeEventListener('click', onPopupUploadCancel);
 	document.removeEventListener('keydown', onPopupUploadEscKeydown);
+	scaleControlSmaller.removeEventListener('click', scaleDoMin);
+	scaleControlBigger.removeEventListener('click', scaleDoMax);
 };
 
 uploadFile.addEventListener('change', () => {
